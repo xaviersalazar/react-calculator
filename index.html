@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>React Calculator</title>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src='https://unpkg.com/babel-standalone@6/babel.min.js'></script>
+  <link rel='stylesheet' href='index.css'>
+</head>
+<body>
+
+  <div id='app'></div>
+
+  <script type="text/babel">
+
+    const ButtonRow = (props) => {
+      return (
+        <div className='button-row'>
+          {props.buttonRows.map(row => (
+            <button
+              key={row.button}
+              className='buttons'
+              onClick={() => props.clicked(row.button)}>
+              {row.button}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    class Calculator extends React.Component {
+      constructor(props) {
+        super(props)
+
+        this.state = {
+          input: '',
+          nextInput: 0,
+          operation: '0'
+        }
+      }
+
+      buttonRows = [
+        { row: 1, button: '7' },
+        { row: 1, button: '8' },
+        { row: 1, button: '9' },
+        { row: 1, button: '*' },
+        { row: 2, button: '4' },
+        { row: 2, button: '5' },
+        { row: 2, button: '6' },
+        { row: 2, button: '/' },
+        { row: 3, button: '1' },
+        { row: 3, button: '2' },
+        { row: 3, button: '3' },
+        { row: 3, button: '+' },
+        { row: 4, button: 'c' },
+        { row: 4, button: '0' },
+        { row: 4, button: '.' },
+        { row: 4, button: '-' },
+        { row: 5, button: '=' },
+      ]
+
+      doMath = (num1, num2, operator) => {
+        let op = {
+          '+': () => num1 + num2,
+          '-': () => num2 - num1,
+          '*': () => num1 * num2,
+          '/': () => num2 / num1
+        }
+        return op[operator]()
+      }
+
+      buttonClicked = (button) => {
+        const operator = (op) => {
+          this.setState({
+            input: '',
+            nextInput: parseFloat(this.state.input) + this.state.nextInput,
+            operation: op
+          })
+        }
+
+        let selected = {
+          '+': () => operator(button),
+          '-': () => operator(button),
+          '*': () => operator(button),
+          '/': () => operator(button),
+          '=': () => {
+            this.setState({
+              input: this.doMath(parseFloat(this.state.input), this.state.nextInput, this.state.operation),
+              nextInput: 0,
+              operation: ''
+            })
+          },
+          'c': () => {
+            this.setState({
+              input: '',
+              nextInput: 0,
+              operation: '0'
+            })
+          },
+          'default': () => {
+            this.setState({ input: this.state.input + button })
+          }
+        }
+        return (selected[button] || selected['default'])()
+      }
+
+      render() {
+        return (
+          <div id='calculator'>
+            <input
+              type='text'
+              value={this.state.input}
+              placeholder={this.state.operation}
+              readOnly
+            />
+            <ButtonRow
+              buttonRows={this.buttonRows.filter(rows => rows.row === 1)}
+              clicked={this.buttonClicked}
+            />
+            <ButtonRow
+              buttonRows={this.buttonRows.filter(rows => rows.row === 2)}
+              clicked={this.buttonClicked}
+            />
+            <ButtonRow
+              buttonRows={this.buttonRows.filter(rows => rows.row === 3)}
+              clicked={this.buttonClicked}
+            />
+            <ButtonRow
+              buttonRows={this.buttonRows.filter(rows => rows.row === 4)}
+              clicked={this.buttonClicked}
+            />
+            <ButtonRow
+              buttonRows={this.buttonRows.filter(rows => rows.row === 5)}
+              clicked={this.buttonClicked}
+            />
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(
+      <Calculator />,
+      document.getElementById('app')
+    )
+
+  </script>
+
+</body>
+</html>

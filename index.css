@@ -1,0 +1,56 @@
+body {
+  background: linear-gradient(to right, #1D4350, #A43931);
+  font-size: 1.5rem;
+}
+
+input {
+  margin: 0;
+  padding: 50px;
+  border-style: none;
+  text-align: right;
+  color: #1D4350;
+  background: #FFF;
+  font-size: inherit;
+}
+
+input::placeholder {
+  color: inherit;
+  opacity: 1;
+}
+
+input:focus, button:focus {
+  outline: none;
+  border: 0;
+  border-style: none;
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+.button-row {
+  display: inherit;
+  background: #fff;
+  padding: 0;
+}
+
+.buttons {
+  flex-grow: 1;
+  flex-basis: 0px;
+  padding: 0;
+  border-style: none;
+  height: 100px;
+  color: #1D4350;
+  background: #fff;
+  font-size: inherit;
+}
+
+#calculator {
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto;
+  height: 600px;
+  width: 450px;
+  padding: 0;
+  box-shadow: 0 13px 12px 0 rgba(0,0,0,0.3);
+}
